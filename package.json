@@ -1,0 +1,20 @@
+{
+  "name": "sky-words",
+  "version": "1.0.0",
+  "description": "",
+  "main": "vite.config.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "private": true,
+  "dependencies": {
+    "vite": "^7.3.1",
+    "vite-plugin-inspect": "^11.3.3",
+    "vue": "^3.5.28",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.4",
+    "vite-plugin-vue-devtools": "^8.0.6"
+  }
+}

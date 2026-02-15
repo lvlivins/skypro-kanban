@@ -13,7 +13,6 @@ import TaskDesk from '@/components/TaskDesk.vue'
 <template>
   <div class="wrapper">
     <!-- pop-up start-->
-
     <div
       class="pop-exit"
       id="popExit"

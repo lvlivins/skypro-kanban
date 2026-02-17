@@ -1,6 +1,7 @@
+
+
 <script setup>
 import UserModal from '@/components/UserModal.vue'
-import NewCardModal from '@/components/NewCardModal.vue'
 
 </script>
 
@@ -14,7 +15,7 @@ import NewCardModal from '@/components/NewCardModal.vue'
             target="_self"
           >
             <img
-              src="@/assets/images/logo.png"
+              src="/images/logo.png"
               alt="logo"
             >
           </a>
@@ -25,7 +26,7 @@ import NewCardModal from '@/components/NewCardModal.vue'
             target="_self"
           >
             <img
-              src="@/assets/images/logo_dark.png"
+              src="/images/logo_dark.png"
               alt="logo"
             >
           </a>
@@ -37,7 +38,9 @@ import NewCardModal from '@/components/NewCardModal.vue'
           >
             <a href="#popNewCard">Создать новую задачу</a> <!-- сюда NewCardModal-->
           </button>
+
           <UserModal />
+
         </nav>
       </div>
     </div>
@@ -45,3 +48,8 @@ import NewCardModal from '@/components/NewCardModal.vue'
 </template>
 
 
+<script
+  setup
+  lang="ts"
+>
+</script>

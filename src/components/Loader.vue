@@ -1,30 +1,40 @@
+<!--Элемент Loader-->
 <script setup>
 defineProps({
   width: {
     type: Number,
-    default: 230
+    default: 220
   },
   height: {
     type: Number,
-    default: 30
+    default: 130
   }
 })
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .loader {
-  border-radius: 50px;
-  background-color: #565EEF;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 13px 19px;
+}
+
+.box-loader {
+  padding: 5px;
 }
 </style>
 
 <template>
-  <div
-    :style="{width: width + 'px', height: height + 'px'}"
-    class="loader"
-  >
+  <div class="box-loader">
+    <div
+      :style="{width: width + 'px', height: height + 'px'}"
+      class="loader"
+    >
+      <p> Данные загружаются</p>
+    </div>
   </div>
 </template>

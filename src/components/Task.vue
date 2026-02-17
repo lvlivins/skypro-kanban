@@ -1,15 +1,28 @@
-<!--Шаблон разметки task, куда подставляем значения из API = mocks/tasks.js-->
+<!--Loading = 4 / Компонент одной карточки task, куда подставляем значения из API = mocks/tasks.js
+Принимает данные задачи task и состояние loading как пропсы
+Указываем в задаче Task v-else (если false), v-if="loading" (если он видимый по setTimeOut) -->
 <script setup>
+
+import Loader from '@/components/Loader.vue'
+
 defineProps({
   task: {
     type: Object,
     required: true
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
 </script>
 
 <template>
-  <div class="cards__item">
+  <Loader v-if="loading" />
+  <div
+    class="cards__item"
+    v-else
+  >
     <div class="cards__card card">
       <div class="card__group">
         <div :class="['card__theme', task.status]">

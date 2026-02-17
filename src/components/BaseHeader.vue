@@ -46,10 +46,3 @@ import UserModal from '@/components/UserModal.vue'
     </div>
   </header>
 </template>
-
-
-<script
-  setup
-  lang="ts"
->
-</script>

@@ -1,3 +1,4 @@
+<!--Шаблон колонки, куда подставляем значения из task.vue и API = mocks/tasks.js-->
 <script setup>
 import Task from '@/components/Task.vue'
 

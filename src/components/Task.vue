@@ -1,3 +1,4 @@
+<!--Шаблон разметки task, куда подставляем значения из API = mocks/tasks.js-->
 <script setup>
 defineProps({
   task: {
@@ -11,8 +12,8 @@ defineProps({
   <div class="cards__item">
     <div class="cards__card card">
       <div class="card__group">
-        <div :class="['card__theme', task.themeClass]">
-          <p :class="task.themeClass">{{ task.themeText }}</p>
+        <div :class="['card__theme', task.status]">
+          <p :class="task.status">{{ task.topic }}</p>
         </div>
 
         <a
@@ -72,7 +73,7 @@ defineProps({
             </defs>
           </svg>
 
-          <p>{{ task.dateText }}</p>
+          <p>{{ task.date }}</p>
         </div>
       </div>
     </div>

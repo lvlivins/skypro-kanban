@@ -16,9 +16,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.home {
-  color: #333;
-}
 </style>
 
 <template>

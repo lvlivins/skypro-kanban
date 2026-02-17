@@ -3,7 +3,6 @@ import TaskColumn from '@/components/TaskColumn.vue'
 
 import { columns as mockColumns } from '@/mocks/tasks.js'
 import { ref } from 'vue'
-import Loader from '@/components/Loader.vue'
 const columns = ref([...mockColumns])
 
 defineProps({

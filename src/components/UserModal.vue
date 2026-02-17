@@ -35,7 +35,7 @@ function userOpenClosePop() {
       type="button"
       class="_hover03"
     >
-      <a href="#popExit">Выйти</a>
+      <a href="#popExit">Выйти</a> <!--сюда LoginView-->
     </button>
   </div>
 </template>

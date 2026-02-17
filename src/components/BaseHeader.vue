@@ -1,5 +1,6 @@
 <script setup>
 import UserModal from '@/components/UserModal.vue'
+import NewCardModal from '@/components/NewCardModal.vue'
 
 </script>
 
@@ -34,7 +35,7 @@ import UserModal from '@/components/UserModal.vue'
             class="header__btn-main-new _hover01"
             id="btnMainNew"
           >
-            <a href="#popNewCard">Создать новую задачу</a>
+            <a href="#popNewCard">Создать новую задачу</a> <!-- сюда NewCardModal-->
           </button>
           <UserModal />
         </nav>

@@ -18,13 +18,13 @@
               class="pop-exit__exit-yes _hover01"
               id="exitYes"
             >
-              <a href="modal/signin.html">Да, выйти</a>
+              <a href="modal/signin.html">Да, выйти</a> <!--сюда LoginView.vue-->
             </button>
             <button
               class="pop-exit__exit-no _hover03"
               id="exitNo"
             >
-              <a href="main.html">Нет, остаться</a>
+              <router-link to="/">Нет, остаться</router-link> <!-- из index.js path: '/' → component: HomeView -->
             </button>
           </div>
         </form>

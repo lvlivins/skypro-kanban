@@ -1,4 +1,30 @@
 <!--Колонки с отрисовкой списка Task - из task.vue и API = mocks/tasks.js-->
+<style scoped>
+.main__column {
+  width: 20%;
+  margin: 0 auto;
+  display: block;
+}
+
+.column__title {
+  padding: 0 10px;
+  margin: 15px 0;
+}
+.column__title p {
+  color: #94A6BE;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.cards {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+</style>
+
 <script setup>
 import Task from '@/components/Task.vue'
 
@@ -8,7 +34,6 @@ defineProps({
   tasks: { type: Array, required: true }
 })
 </script>
-
 
 <template>
   <div :class="['main__column', { column: isFirst }]">

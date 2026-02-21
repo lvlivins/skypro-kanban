@@ -117,3 +117,8 @@ export const columns = [
     ]
   }
 ]
+
+export const loaderText = {
+  yes: 'Данные загружаются...',
+  no: 'Задач нет'
+}

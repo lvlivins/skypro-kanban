@@ -8,6 +8,14 @@ defineProps({
   height: {
     type: Number,
     default: 600
+  },
+  loaderText: {
+    type: Object,
+    required: true
+  },
+  varLoader: {
+    type: String,
+    default: 'yes'
   }
 })
 </script>
@@ -28,6 +36,25 @@ defineProps({
   display: flex;
   justify-content: center;
 }
+
+.typing {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 2s steps(40, end) infinite;
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  70% {
+    width: 20ch;
+  }
+  100% {
+    width: 20ch;
+  }
+}
 </style>
 
 <template>
@@ -36,7 +63,9 @@ defineProps({
       :style="{width: width + 'px', height: height + 'px'}"
       class="loader"
     >
-      <p> Данные загружаются</p>
+      <p :class="{ typing: varLoader === 'yes' }">
+        {{ loaderText[varLoader] }}
+      </p>
     </div>
   </div>
 </template>

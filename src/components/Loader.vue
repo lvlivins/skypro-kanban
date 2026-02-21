@@ -1,13 +1,13 @@
-<!--Элемент Loader-->
+<!-- Имитация загрузки (loader) при запросе к API - use в HomeView & TaskDesk-->
 <script setup>
 defineProps({
   width: {
     type: Number,
-    default: 220
+    default: 1200
   },
   height: {
     type: Number,
-    default: 130
+    default: 600
   }
 })
 </script>
@@ -15,6 +15,7 @@ defineProps({
 <style scoped>
 .loader {
   border-radius: 10px;
+  font-size: 36px;
   background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
@@ -24,7 +25,8 @@ defineProps({
 }
 
 .box-loader {
-  padding: 5px;
+  display: flex;
+  justify-content: center;
 }
 </style>
 

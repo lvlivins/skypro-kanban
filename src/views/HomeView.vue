@@ -1,7 +1,6 @@
 <!-- Loading = 1 / Главный экран с loading через таймер - имитация запроса к API
 Пока данные грузятся loading = true, после завершения loading = false.
-Значение loading передаётся в компонент TaskDesk, чтобы вся доска знала идёт ли загрузка.
--->
+Значение loading передаётся в компонент TaskDesk, чтобы вся доска знала идёт ли загрузка. -->
 <script setup>
 import BaseHeader from '@/components/BaseHeader.vue'
 import TaskDesk from '@/components/TaskDesk.vue'
@@ -16,6 +15,7 @@ onMounted(() => {
     loading.value = false
   }, 5000)
 })
+defineProps({ loading: Boolean })
 </script>
 
 <style scoped>

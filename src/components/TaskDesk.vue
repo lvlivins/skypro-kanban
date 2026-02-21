@@ -1,31 +1,40 @@
-<!--Loading = 2 / Вся доска c TaskColumn (колонки и данные Task)
+<!-- Loading = 2 / Вся доска c TaskColumn (колонки и данные Task)
+TaskDesk показывает Loader на месте себя.
 Принимает loading от HomeView как пропс.
-TaskDesk не показывает Loader внутри карточек, а раздаёт состояние дальше.
-Передаёт loading в каждую колонку (TaskColumn) - true(есть), false(нет)-->
+Указываем v-else (если false), v-if="loading" (если он видимый по setTimeOut)-->
 
 <script setup>
 import TaskColumn from '@/components/TaskColumn.vue'
 
 import { columns as mockColumns } from '@/mocks/tasks.js'
 import { ref } from 'vue'
+import Loader from '@/components/Loader.vue'
 
 const columns = ref([...mockColumns])
-
-defineProps({ loading: Boolean })
+defineProps({
+  loading: {
+    type: Boolean,
+    default: false
+  }
+})
 </script>
 
 <template>
+
   <main class="main">
     <div class="container">
       <div class="main__block">
-        <div class="main__content">
+        <Loader v-if="loading" />
+        <div
+          class="main__content"
+          v-else
+        >
           <TaskColumn
             v-for="col in columns"
             :key="col.name"
             :title="col.title"
             :isFirst="col.isFirst"
             :tasks="col.tasks"
-            :loading ="loading"
           />
         </div>
       </div>

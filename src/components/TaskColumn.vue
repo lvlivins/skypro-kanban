@@ -1,17 +1,11 @@
-<!--Loading = 3 / Колонки доски с отрисовкой списка Task - из task.vue и API = mocks/tasks.js
-Принимает loading от TaskDesk как пропс.
-Передаёт loading в каждую карточку Task.
--->
-
-
+<!--Колонки с отрисовкой списка Task - из task.vue и API = mocks/tasks.js-->
 <script setup>
 import Task from '@/components/Task.vue'
 
 defineProps({
   title: { type: String, required: true },
   isFirst: { type: Boolean, default: false },
-  tasks: { type: Array, required: true },
-  loading: Boolean
+  tasks: { type: Array, required: true }
 })
 </script>
 
@@ -27,7 +21,6 @@ defineProps({
         v-for="t in tasks"
         :key="t.id"
         :task="t"
-        :loading="loading"
       />
     </div>
   </div>

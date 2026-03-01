@@ -1,6 +1,7 @@
 <style scoped>
 .pop-exit {
-  display: none;
+  /*display: none;*/
+  display: block;
   width: 100%;
   height: 100%;
   min-width: 320px;
@@ -99,10 +100,9 @@
 </style>
 
 <template>
-  <div
-    class="pop-exit"
-    id="popExit"
-  >
+  <div class="pop-exit">
+<!--    id="popExit"-->
+
     <div class="pop-exit__container">
       <div class="pop-exit__block">
         <div class="pop-exit__ttl">
@@ -118,13 +118,15 @@
               class="pop-exit__exit-yes _hover01"
               id="exitYes"
             >
-              <a href="modal/signin.html">Да, выйти</a> <!--сюда LoginView.vue-->
+              <router-link to="/login">Да, выйти</router-link>
+<!--              <a href="modal/signin.html">Да, выйти</a> &lt;!&ndash;сюда LoginView.vue&ndash;&gt;-->
             </button>
             <button
               class="pop-exit__exit-no _hover03"
               id="exitNo"
             >
-              <router-link to="/">Нет, остаться</router-link> <!-- из index.js path: '/' → component: HomeView -->
+              <router-link to="/">Нет, остаться</router-link>
+<!--              <router-link to="/">Нет, остаться</router-link> &lt;!&ndash; из index.js path: '/' → component: HomeView &ndash;&gt;-->
             </button>
           </div>
         </form>

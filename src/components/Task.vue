@@ -1,4 +1,5 @@
-<!-- Компонент одной карточки task, куда подставляем значения из API = mocks/tasks.js -->
+<!-- Компонент одной карточки task, куда подставляем значения из API = mocks/tasks.js
+Значения из mocks -> через пропс в TaskColumn, где определяются id -> через пропс task вывожу эти значения уже по отдельности тут-->
 <style scoped>
 .cards__item {
   padding: 5px;
@@ -6,6 +7,7 @@
   animation-duration: 500ms;
   animation-timing-function: linear;
 }
+
 .cards__card {
   width: 220px;
   height: 130px;
@@ -26,17 +28,20 @@
   align-items: center;
   justify-content: space-between;
 }
+
 .card__theme {
   width: auto;
   height: 20px;
   padding: 5px 14px;
   border-radius: 18px;
 }
+
 .card__theme p {
   font-size: 10px;
   font-weight: 600;
   line-height: 10px;
 }
+
 .card__btn {
   width: 24px;
   height: 24px;
@@ -45,12 +50,14 @@
   justify-content: space-around;
   padding: 2px;
 }
+
 .card__btn div {
   width: 4px;
   height: 4px;
   border-radius: 50%;
   background-color: #94A6BE;
 }
+
 .card__title {
   font-size: 14px;
   font-weight: 500;
@@ -58,6 +65,7 @@
   color: #000000;
   margin-bottom: 10px;
 }
+
 .card__content {
   height: 64px;
   display: flex;
@@ -65,14 +73,17 @@
   align-items: flex-start;
   justify-content: space-between;
 }
+
 .card__date {
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
+
 .card__date svg {
   width: 13px;
 }
+
 .card__date p {
   margin-left: 6px;
   font-size: 10px;
@@ -111,30 +122,17 @@ defineProps({
         <div :class="['card__theme', task.status]">
           <p :class="task.status">{{ task.topic }}</p>
         </div>
-
-        <a
-          :href="task.browseHref || '#popBrowse'"
-          target="_self"
-        >
+        <RouterLink :to="`/task/${task.id}`">
           <div class="card__btn">
-            <div>
-            </div>
-            <div>
-            </div>
-            <div>
-            </div>
+            <div></div><div></div><div></div>
           </div>
-        </a>
+        </RouterLink>
       </div>
 
       <div class="card__content">
-        <a
-          :href="task.titleHref || ''"
-          target="_blank"
-        >
+        <RouterLink :to="`/task/${task.id}`">
           <h3 class="card__title">{{ task.title }}</h3>
-        </a>
-
+        </RouterLink>
         <div class="card__date">
           <svg
             xmlns="http://www.w3.org/2000/svg"

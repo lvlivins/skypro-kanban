@@ -130,7 +130,6 @@ function userOpenClosePop() {
     id="user-set-target"
     v-if="userPop"
   >
-    <!--         <a href="">x</a> -->
     <p class="pop-user-set__name">Ivan Ivanov</p>
     <p class="pop-user-set__mail">ivan.ivanov@gmail.com</p>
     <div class="pop-user-set__theme">
@@ -145,7 +144,7 @@ function userOpenClosePop() {
       type="button"
       class="_hover03"
     >
-      <a href="#popExit">Выйти</a> <!--сюда LoginView-->
+      <RouterLink to="/exit">Выйти</RouterLink>
     </button>
   </div>
 </template>

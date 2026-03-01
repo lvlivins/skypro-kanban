@@ -45,7 +45,6 @@
 }
 </style>
 
-
 <script setup>
 import UserModal from '@/components/UserModal.vue'
 
@@ -82,11 +81,10 @@ import UserModal from '@/components/UserModal.vue'
             class="header__btn-main-new _hover01"
             id="btnMainNew"
           >
-            <a href="#popNewCard">Создать новую задачу</a> <!-- сюда NewCardModal-->
+            <RouterLink to="/new-task">Создать новую задачу</RouterLink>
+<!--            <a href="#popNewCard">Создать новую задачу </a>-->
           </button>
-
           <UserModal />
-
         </nav>
       </div>
     </div>

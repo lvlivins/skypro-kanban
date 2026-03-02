@@ -2,7 +2,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const isMuted = ref(false) /*false - сразу запуститься звук */
+const isMuted = ref(true) /*false - сразу запуститься звук */
 
 function toggleSound() {
   isMuted.value = !isMuted.value

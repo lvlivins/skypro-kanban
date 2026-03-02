@@ -1,11 +1,83 @@
 <script setup>
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import { ref } from 'vue'
+import { signIn, signUp } from '@/services/auth'
+import router from '@/router'
 
-defineProps({
+const props = defineProps({
   isSignUp: { type: Boolean, default: false },
   onClick: { type: Function, default: null }
 })
+
+
+const formData = ref({
+  name: '',
+  login: '',
+  password: ''
+})
+
+const errors = ref({
+  name: false,
+  login: false,
+  password: false
+})
+
+const error = ref('')
+
+function validateForm() {
+  let isValid = true
+  error.value = ''
+
+  errors.value.name = false
+  errors.value.login = false
+  errors.value.password = false
+
+  // Проверка имени (для регистрации)
+  if (props.isSignUp && !formData.value.name.trim()) {
+    errors.value.name = true
+    isValid = false
+  }
+
+  // Проверка логина (почты)
+  if (!formData.value.login.trim()) {
+    errors.value.login = true
+    isValid = false
+  }
+
+  // Проверка пароля
+  if (!formData.value.password.trim()) {
+    errors.value.password = true
+    isValid = false
+  }
+
+  // Общая проверка ошибок
+  if (!isValid) {
+    error.value = 'Пожалуйста, заполните все обязательные поля'
+  }
+
+  return isValid
+}
+
+async function handleSubmit(event) {
+  event.preventDefault()
+
+  if (!validateForm()) {
+    return
+  }
+
+  try {
+    const data = props.isSignUp
+      ? await signUp(formData.value)
+      : await signIn({ login: formData.value.login, password: formData.value.password })
+    if (data) {
+      localStorage.setItem('userInfo', JSON.stringify(data))
+      router.push('/')
+    }
+  } catch (err) {
+    error.value = err.message
+  }
+}
 
 </script>
 
@@ -19,36 +91,46 @@ defineProps({
           </div>
           <form
             class="modal__form-login"
-            id="formLogIn"
+            id="formLogin"
             action="#"
-            @submit.prevent="onClick"
+            @submit.prevent="handleSubmit"
           >
-            <BaseInput inputClass="">
-              <input
-                class="modal__input"
-                type="text"
-                name="login"
-                id="formlogin"
-                placeholder="Эл. почта"
-              >
-            </BaseInput>
-            <BaseInput inputClass="">
-              <input
-                class="modal__input"
-                type="password"
-                name="password"
-                id="formpassword"
-                placeholder="Пароль"
-              >
-            </BaseInput>
-            <BaseButton buttonClass="">
-              <button
-                class="modal__btn-enter _hover01"
-                id="btnEnter"
-                type="submit"
-              >
-                {{ isSignUp ? 'Зарегистрироваться' : 'Войти' }}
-              </button>
+            <BaseInput
+              v-if="isSignUp"
+              type="text"
+              name="name"
+              id="formName"
+              placeholder="Имя"
+              :class="[{error: errors.name}]"
+              @focus="errors.name = false"
+              v-model="formData.name"
+            />
+            <BaseInput
+              type="text"
+              name="login"
+              id="formLogin"
+              placeholder="Эл. почта"
+              :autocomplete="isSignUp ? 'new-username' : 'username'"
+              :class="[{error: errors.login}]"
+              @focus="errors.login = false"
+              v-model="formData.login"
+            />
+            <BaseInput
+              type="password"
+              name="password"
+              id="formPassword"
+              placeholder="Пароль"
+              :autocomplete="isSignUp ? 'new-password' : 'current-password'"
+              :class="[{error: errors.password}]"
+              @focus="errors.password = false"
+              v-model="formData.password"
+            />
+            <p v-show="error" class="button-error">{{ error }}</p>
+            <BaseButton
+              id="btnEnter"
+              type="submit"
+            >
+              {{ isSignUp ? 'Зарегистрироваться' : 'Войти' }}
             </BaseButton>
             <div class="modal__form-group">
               <p>
@@ -71,6 +153,12 @@ button {
   outline: auto;
 }
 
+.button-error {
+  color: brown;
+  font-size: 14px;
+  font-weight: 400;
+}
+
 .wrapper {
   width: 100%;
   height: 100%;
@@ -84,10 +172,6 @@ button {
   width: 100vw;
   min-height: 100vh;
   margin: 0 auto;
-}
-
-._hover01:hover {
-  background-color: #33399b;
 }
 
 .modal {
@@ -138,52 +222,6 @@ button {
   margin-bottom: 7px;
 }
 
-.modal__input {
-  width: 248px;
-  height: 30px;
-  border-radius: 8px;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
-  outline: none;
-  padding: 10px 8px;
-}
-
-.modal__input::-moz-placeholder {
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 21px;
-  letter-spacing: -0.28px;
-  color: #94A6BE;
-}
-
-.modal__input::placeholder {
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 21px;
-  letter-spacing: -0.28px;
-  color: #94A6BE;
-}
-
-.modal__btn-enter {
-  width: 248px;
-  height: 30px;
-  background-color: #565EEF;
-  border-radius: 4px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: none;
-  outline: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 500;
-  letter-spacing: -0.14px;
-  color: #FFFFFF;
-}
-
 .modal__btn-signup-ent a {
   width: 100%;
   height: 100%;
@@ -222,10 +260,6 @@ button {
     border-radius: none;
     border: none;
     box-shadow: none;
-  }
-
-  .modal__btn-enter {
-    height: 40px;
   }
 }
 </style>

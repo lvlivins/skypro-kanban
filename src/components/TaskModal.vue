@@ -1,5 +1,7 @@
 <!-- Компонент модалки task, куда подставляем значения из API = mocks/tasks.js-->
 <script setup>
+import { ref } from 'vue'
+
 const props = defineProps({
   task: {
     type: Object
@@ -8,6 +10,12 @@ const props = defineProps({
   deleteTask: Function,
   error: String
 })
+
+const description = ref('')
+
+if (props.task) {
+  description.value = props.task.description
+}
 </script>
 
 <template>
@@ -180,7 +188,7 @@ const props = defineProps({
               <button
                 class="btn-browse__edit _btn-bor _hover03"
                 type="button"
-                @click="editTask(task._id || task.id, task)"
+                @click="task.description = description.value; editTask(task._id, task)"
               >
                 Редактировать задачу
               </button>
@@ -206,7 +214,7 @@ const props = defineProps({
                 <a
                   class="btn-edit__edit _btn-bg _hover01"
                   type="button"
-                  @click="editTask(task._id || task.id, task)"
+                  @click="task.description = description.value; editTask(task._id, task)"
                 >Сохранить
                 </a>
               </button>
@@ -223,7 +231,7 @@ const props = defineProps({
                   class="btn-edit__delete _btn-bor _hover03"
                   id="btnDelete"
                   type="button"
-                  @click="deleteTask(task._id || task.id)"
+                  @click="deleteTask(task._id)"
                 >Удалить задачу
                 </a>
               </button>

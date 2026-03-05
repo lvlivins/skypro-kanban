@@ -15,7 +15,7 @@ const taskRoute = computed(() => {
 
   for (let i = 0; i < tasks.value.length; i++) {
     const task = tasks.value[i]
-    const taskId = String(task._id || task.id)
+    const taskId = String(task._id)
 
     if (taskId === id) {
       return task

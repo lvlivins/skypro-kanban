@@ -39,6 +39,7 @@ export function useTasks() {
   const updateTask = async (id, task) => {
     try {
       error.value = ''
+
       const data = await editTask({ token: tokenUser, id, task })
       if (data) tasks.value = data
     } catch (err) {

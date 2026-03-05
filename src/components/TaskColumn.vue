@@ -18,7 +18,7 @@ defineProps({
     <div class="cards">
       <Task
         v-for="t in tasks"
-        :key="t._id || t.id"
+        :key="t._id"
         :task="t"
       />
     </div>

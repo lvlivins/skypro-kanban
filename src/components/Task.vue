@@ -18,7 +18,7 @@ defineProps({
         <div :class="['card__theme', task.status]">
           <p :class="task.status">{{ task.topic }}</p>
         </div>
-        <RouterLink :to="`/task/${task._id || task.id}`">
+        <RouterLink :to="`/task/${task._id}`">
           <div class="card__btn">
             <div></div>
             <div></div>
@@ -28,7 +28,7 @@ defineProps({
       </div>
 
       <div class="card__content">
-        <RouterLink :to="`/task/${task._id || task.id}`">
+        <RouterLink :to="`/task/${task._id}`">
           <h3 class="card__title">{{ task.title }}</h3>
         </RouterLink>
         <div class="card__date">

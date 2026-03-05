@@ -4,24 +4,65 @@ TaskDesk показывает Loader на месте себя.
 Указываем v-else (если false), v-if="loading" (если он видимый по setTimeOut)-->
 <script setup>
 import TaskColumn from '@/components/TaskColumn.vue'
-import { columns as mockColumns } from '@/mocks/tasks.js'
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import Loader from '@/components/Loader.vue'
-const columns = ref([...mockColumns])
-// const columns = ref(null) test for hw3
-
 import { loaderText } from '@/mocks/tasks.js'
 
-defineProps({
+const props = defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  tasks: {
+    type: Array
+  },
+  error: {
+    type: String,
+    default: ''
   }
 })
 
-/*computed - если изм данные в колонках, он сам апдейт */
+const columnsToApi = computed(() => {
+  const newColumns = [
+    { name: 'noStatus', title: 'Без статуса', isFirst: true },
+    { name: 'todo', title: 'Нужно сделать', isFirst: false },
+    { name: 'inWork', title: 'В работе', isFirst: false },
+    { name: 'testing', title: 'Тестирование', isFirst: false },
+    { name: 'done', title: 'Готово', isFirst: false }
+  ]
+
+  const finalColumns = []
+
+  for (let i = 0; i < newColumns.length; i++) {
+    const column = newColumns[i]
+    const columnTasks = []
+
+    const tasksApi = props.tasks || []
+    for (let c = 0; c < tasksApi.length; c++) {
+      const task = tasksApi[c]
+
+      if (task.status === column.title) {
+        columnTasks.push(task)
+      }
+    }
+
+    finalColumns.push({
+      name: column.name,
+      title: column.title,
+      isFirst: column.isFirst,
+      tasks: columnTasks
+    })
+  }
+
+  return finalColumns
+})
+
 const isTask = computed(() => {
-  if (!columns.value || columns.value.length === 0) {
+  if (!props.tasks) {
+    return false
+  }
+
+  if (props.tasks.length === 0) {
     return false
   }
   return true
@@ -52,11 +93,11 @@ const isTask = computed(() => {
             v-else
           >
             <TaskColumn
-              v-for="col in columns"
-              :key="col.name"
-              :title="col.title"
-              :isFirst="col.isFirst"
-              :tasks="col.tasks"
+              v-for="column in columnsToApi"
+              :key="column.name"
+              :title="column.title"
+              :isFirst="column.isFirst"
+              :tasks="column.tasks"
             />
           </div>
         </transition>

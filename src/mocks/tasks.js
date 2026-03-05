@@ -1,5 +1,11 @@
 /* Mocks = временные данные, которые используются вместо сервера или базы данных.*/
-export const columns = [
+
+export const loaderText = {
+  yes: 'Данные загружаются...',
+  no: 'Задач нет'
+}
+
+/*export const columns = [
   {
     name: 'Column №1',
     title: 'Без статуса',
@@ -116,9 +122,5 @@ export const columns = [
       }
     ]
   }
-]
+]*/
 
-export const loaderText = {
-  yes: 'Данные загружаются...',
-  no: 'Задач нет'
-}

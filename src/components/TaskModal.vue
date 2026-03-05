@@ -3,14 +3,17 @@
 const props = defineProps({
   task: {
     type: Object
-  }
+  },
+  editTask: Function,
+  deleteTask: Function,
+  error: String
 })
 </script>
 
 <template>
   <div
     class="pop-browse"
-<!--    id="popBrowse"-->
+    v-if="task"
   >
     <div class="pop-browse__container">
       <div class="pop-browse__block">
@@ -57,8 +60,8 @@ const props = defineProps({
                   class="form-browse__area"
                   name="text"
                   id="textArea01"
-                  readonly
                   placeholder="Введите описание задачи..."
+                  v-model="description"
                 ></textarea>
               </div>
             </form>
@@ -174,38 +177,64 @@ const props = defineProps({
 
           <div class="pop-browse__btn-browse ">
             <div class="btn-group">
-              <button class="btn-browse__edit _btn-bor _hover03">
-                <a href="#">Редактировать задачу</a>
+              <button
+                class="btn-browse__edit _btn-bor _hover03"
+                type="button"
+                @click="editTask(task._id || task.id, task)"
+              >
+                Редактировать задачу
               </button>
-              <button class="btn-browse__delete _btn-bor _hover03">
-                <a href="#">Удалить задачу</a>
+              <button
+                class="btn-browse__delete _btn-bor _hover03"
+                type="button"
+                @click="deleteTask(task._id || task.id)"
+              >
+                Удалить задачу
               </button>
             </div>
-            <button class="btn-browse__close _btn-bg _hover01">
-              <RouterLink to="/">Закрыть</RouterLink>
-            </button>
+            <RouterLink
+              type="button"
+              class="btn-browse__close _btn-bg _hover01"
+              to="/"
+            >Закрыть
+            </RouterLink>
           </div>
 
           <div class="pop-browse__btn-edit _hide">
             <div class="btn-group">
-              <button class="btn-edit__edit _btn-bg _hover01">
-                <a href="#">Сохранить</a>
-              </button>
-              <button class="btn-edit__edit _btn-bor _hover03">
-                <a href="#">Отменить</a>
+              <button>
+                <a
+                  class="btn-edit__edit _btn-bg _hover01"
+                  type="button"
+                  @click="editTask(task._id || task.id, task)"
+                >Сохранить
+                </a>
               </button>
               <button
-                class="btn-edit__delete _btn-bor _hover03"
-                id="btnDelete"
-              >
-                <a href="#">Удалить задачу</a>
+                class="
+                  btn-edit__edit
+                  _btn-bor
+                  _hover03
+                "
+              >Отменить
+              </button>
+              <button>
+                <a
+                  class="btn-edit__delete _btn-bor _hover03"
+                  id="btnDelete"
+                  type="button"
+                  @click="deleteTask(task._id || task.id)"
+                >Удалить задачу
+                </a>
               </button>
             </div>
-            <button class="btn-edit__close _btn-bg _hover01">
-              <RouterLink to="/">Закрыть</RouterLink>
-            </button>
+            <RouterLink
+              class="btn-edit__close _btn-bg _hover01"
+              to="/"
+              type="button"
+            >Закрыть
+            </RouterLink>
           </div>
-
         </div>
       </div>
     </div>
@@ -214,7 +243,6 @@ const props = defineProps({
 
 <style scoped>
 .pop-browse {
-  /*display: none;*/
   display: block;
   width: 100%;
   height: 100%;
@@ -376,6 +404,14 @@ const props = defineProps({
   font-size: 14px;
   line-height: 1;
   letter-spacing: -0.14px;
+}
+
+.btn-browse__close {
+  height: 30px;
+  text-align: center;
+  display: flex;
+  padding: 0 14px;
+  align-items: center;
 }
 
 ._btn-bor {

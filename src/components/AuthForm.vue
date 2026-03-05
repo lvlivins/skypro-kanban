@@ -2,14 +2,13 @@
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import { ref } from 'vue'
-import { signIn, signUp } from '@/services/auth'
+import { signIn, signUp } from '@/services/auth.js'
 import router from '@/router'
 
 const props = defineProps({
   isSignUp: { type: Boolean, default: false },
   onClick: { type: Function, default: null }
 })
-
 
 const formData = ref({
   name: '',
@@ -78,7 +77,6 @@ async function handleSubmit(event) {
     error.value = err.message
   }
 }
-
 </script>
 
 <template>
@@ -125,7 +123,11 @@ async function handleSubmit(event) {
               @focus="errors.password = false"
               v-model="formData.password"
             />
-            <p v-show="error" class="button-error">{{ error }}</p>
+            <p
+              v-show="error"
+              class="button-error"
+            >{{ error }}
+            </p>
             <BaseButton
               id="btnEnter"
               type="submit"

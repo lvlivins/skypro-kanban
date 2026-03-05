@@ -3,20 +3,20 @@
 defineProps({
   id: {
     type: String,
-    required: true,
+    required: true
   },
   name: {
     type: String,
-    required: true,
+    required: true
   },
   placeholder: {
     type: String,
-    default: '',
+    default: ''
   },
   type: {
     type: String,
-    default: 'text',
-  },
+    default: 'text'
+  }
 })
 
 const model = defineModel()

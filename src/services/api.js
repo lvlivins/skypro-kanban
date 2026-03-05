@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const API_URL = 'https://wedev-api.sky.pro/api/kanban'
 
+// get запрос передачи токена и получения задач (вход и получения текущего списка задач целиком)
 export async function fetchTasks({ token }) {
   try {
     const data = await axios.get(API_URL, {
@@ -15,6 +16,7 @@ export async function fetchTasks({ token }) {
   }
 }
 
+//post запрос на передачу новой задачи + token и возврата обновленного массива задач (создать задачу)
 export async function postTask({ token, task }) {
   try {
     const data = await axios.post(API_URL, task, {
@@ -29,22 +31,24 @@ export async function postTask({ token, task }) {
   }
 }
 
+//*get запрос передачи задачи(id) + token и возврата одной определенной задачи (получение конкретной задачи)
 export async function getTask({ token, id }) {
   try {
-    const data = await axios.get(API_URL + id, {
+    const data = await axios.get(API_URL + '/' + id, {
       headers: {
         Authorization: 'Bearer ' + token
       }
     })
-    return data.data
+    return data.data.task
   } catch (error) {
     throw new Error(error.message)
   }
 }
 
+// put запрос передачи обновленной задачи и возврат обновленного массива задач (редактировать задачу)
 export async function editTask({ token, id, task }) {
   try {
-    const data = await axios.put(API_URL + id, task, {
+    const data = await axios.put(API_URL + '/' + id, task, {
       headers: {
         Authorization: 'Bearer ' + token,
         'Content-Type': ''
@@ -56,9 +60,10 @@ export async function editTask({ token, id, task }) {
   }
 }
 
+// delete запрос передачи на удаление задачи(id)+token, и возврат обновленного массива задач (удаление задачи)
 export async function deleteTask({ token, id }) {
   try {
-    const data = await axios.delete(API_URL + id, {
+    const data = await axios.delete(API_URL + '/' + id, {
       headers: {
         Authorization: 'Bearer ' + token,
         'Content-Type': ''

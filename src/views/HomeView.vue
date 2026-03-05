@@ -7,38 +7,31 @@ import { onMounted, ref } from 'vue'
 import BaseHeader from '@/components/BaseHeader.vue'
 import TaskDesk from '@/components/TaskDesk.vue'
 import { RouterView } from 'vue-router'
-import { fetchTasks } from '@/services/api'
+import { useTasks } from '@/services/task-crud.js'
 
-const loading = ref(false)
+const { tasks, error, loading, getTasks } = useTasks()
+onMounted(getTasks)
+/*const loading = ref(false)
 onMounted(() => {
   setTimeout(() => {
     loading.value = false
   }, 2000)
-})
-
-const tasks = ref([])
-const error = ref('')
-
-const getTasks = async () => {
-  try {
-    loading.value = true
-    /*const token= localStorage.getItem('token') || ''*/
-
-    const data = await fetchTasks({
-      token: 'bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck'
-        // 'пока нет авторизации - передаем токен вручную'
-    })
-    if (data) tasks.value = data
-  } catch (err) {
-    error.value = err.message
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(getTasks)
-
+})*/
 </script>
+
+<template>
+  <div class="wrapper">
+    <BaseHeader />
+
+    <TaskDesk
+      :tasks="tasks"
+      :loading="loading"
+      :error="error"
+    />
+
+    <RouterView />
+  </div>
+</template>
 
 <style scoped>
 .wrapper {
@@ -49,18 +42,5 @@ onMounted(getTasks)
   background-color: #F1F1F1;
 }
 </style>
-
-<template>
-  <div class="wrapper">
-    <BaseHeader />
-
-    <TaskDesk
-      :loading="loading"
-      :error="error"
-    />
-
-    <RouterView />
-  </div>
-</template>
 
 

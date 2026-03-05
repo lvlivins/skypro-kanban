@@ -1,3 +1,35 @@
+<template>
+  <div class="pop-exit">
+    <div class="pop-exit__container">
+      <div class="pop-exit__block">
+        <div class="pop-exit__ttl">
+          <h2>Выйти из аккаунта?</h2>
+        </div>
+        <form
+          class="pop-exit__form"
+          id="formExit"
+          action="#"
+        >
+          <div class="pop-exit__form-group">
+            <button
+              class="pop-exit__exit-yes _hover01"
+              id="exitYes"
+            >
+              <router-link to="/login">Да, выйти</router-link>
+            </button>
+            <button
+              class="pop-exit__exit-no _hover03"
+              id="exitNo"
+            >
+              <router-link to="/">Нет, остаться</router-link>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .pop-exit {
   /*display: none;*/
@@ -11,6 +43,7 @@
   left: 0;
   z-index: 5;
 }
+
 .pop-exit__container {
   width: 100%;
   height: 100%;
@@ -22,6 +55,7 @@
   justify-content: center;
   background: rgba(0, 0, 0, 0.4);
 }
+
 .pop-exit__block {
   display: block;
   margin: 0 auto;
@@ -33,6 +67,7 @@
   border: 0.7px solid #D4DBE5;
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
 }
+
 .pop-exit__ttl h2 {
   text-align: center;
   font-size: 20px;
@@ -41,6 +76,7 @@
   letter-spacing: -0.4px;
   margin-bottom: 20px;
 }
+
 .pop-exit__exit-yes {
   width: 153px;
   height: 30px;
@@ -58,6 +94,7 @@
   color: #FFFFFF;
   margin-right: 10px;
 }
+
 .pop-exit__exit-yes a {
   width: 100%;
   height: 100%;
@@ -66,6 +103,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .pop-exit__exit-no {
   width: 153px;
   height: 30px;
@@ -82,6 +120,7 @@
   letter-spacing: -0.14px;
   color: #FFFFFF;
 }
+
 .pop-exit__exit-no a {
   width: 100%;
   height: 100%;
@@ -90,47 +129,11 @@
   align-items: center;
   justify-content: center;
 }
+
 .pop-exit__form-group {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
 </style>
-
-<template>
-  <div class="pop-exit">
-<!--    id="popExit"-->
-
-    <div class="pop-exit__container">
-      <div class="pop-exit__block">
-        <div class="pop-exit__ttl">
-          <h2>Выйти из аккаунта?</h2>
-        </div>
-        <form
-          class="pop-exit__form"
-          id="formExit"
-          action="#"
-        >
-          <div class="pop-exit__form-group">
-            <button
-              class="pop-exit__exit-yes _hover01"
-              id="exitYes"
-            >
-              <router-link to="/login">Да, выйти</router-link>
-<!--              <a href="modal/signin.html">Да, выйти</a> &lt;!&ndash;сюда LoginView.vue&ndash;&gt;-->
-            </button>
-            <button
-              class="pop-exit__exit-no _hover03"
-              id="exitNo"
-            >
-              <router-link to="/">Нет, остаться</router-link>
-<!--              <router-link to="/">Нет, остаться</router-link> &lt;!&ndash; из index.js path: '/' → component: HomeView &ndash;&gt;-->
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</template>

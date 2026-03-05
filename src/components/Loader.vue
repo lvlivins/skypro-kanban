@@ -20,6 +20,19 @@ defineProps({
 })
 </script>
 
+<template>
+  <div class="box-loader">
+    <div
+      :style="{width: width + 'px', height: height + 'px'}"
+      class="loader"
+    >
+      <p :class="{ typing: varLoader === 'yes' }">
+        {{ loaderText[varLoader] }}
+      </p>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .loader {
   border-radius: 10px;
@@ -57,15 +70,4 @@ defineProps({
 }
 </style>
 
-<template>
-  <div class="box-loader">
-    <div
-      :style="{width: width + 'px', height: height + 'px'}"
-      class="loader"
-    >
-      <p :class="{ typing: varLoader === 'yes' }">
-        {{ loaderText[varLoader] }}
-      </p>
-    </div>
-  </div>
-</template>
+

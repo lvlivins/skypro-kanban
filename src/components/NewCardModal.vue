@@ -1,11 +1,138 @@
 <script setup>
-defineProps({
+import { ref, computed } from 'vue'
+
+const props = defineProps({
   createNewTask: Function
 })
 
-const formData = {
+const formData = ref({
   title: '',
-  description: ''
+  description: '',
+  topic: 'Web Design',
+  status: 'Без статуса',
+  date: ''
+})
+
+const monthNames = [
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь'
+]
+const currentMonth = ref(8) // 0 - январь
+const currentYear = ref(2023)
+
+const prevDate = (day) => {
+  let prevMonth = currentMonth.value - 1
+  let prevYear = currentYear.value
+
+  if (prevMonth < 0) {
+    prevMonth = 11
+    prevYear--
+  }
+
+  const date = new Date(prevYear, prevMonth, day)
+
+  return date.toLocaleDateString('ru-RU', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  })
+}
+
+const currentDate = (day) => {
+  const date = new Date(currentYear.value, currentMonth.value, day)
+
+  return date.toLocaleDateString('ru-RU', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  })
+}
+
+const nextDate = (day) => {
+  let nextMonth = currentMonth.value + 1
+  let nextYear = currentYear.value
+
+  if (nextMonth > 11) {
+    nextMonth = 0
+    nextYear++
+  }
+
+  const date = new Date(nextYear, nextMonth, day)
+
+  return date.toLocaleDateString('ru-RU', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  })
+}
+// кнопки переключения
+const prevMonth = () => {
+  if (currentMonth.value === 0) {
+    currentMonth.value = 11
+    currentYear.value--
+  } else {
+    currentMonth.value--
+  }
+}
+const nextMonth = () => {
+  if (currentMonth.value === 11) {
+    currentMonth.value = 0
+    currentYear.value++
+  } else {
+    currentMonth.value++
+  }
+}
+
+const calendarDays = computed(() => {
+  const firstDay = new Date(currentYear.value, currentMonth.value, 1).getDay()
+  const lastDate = new Date(currentYear.value, currentMonth.value + 1, 0).getDate()
+
+  let startDay = firstDay - 1
+
+  if (firstDay === 0) {
+    startDay = 6
+  }
+
+  const days = []
+
+  for (let i = 0; i < startDay; i++) {
+    days.push('')
+  }
+
+  for (let day = 1; day <= lastDate; day++) {
+    days.push(day)
+  }
+
+  return days
+})
+
+// выбор даты
+const chooseCurrentDate = (day) => {
+  formData.value.date = currentDate(day)
+}
+const choosePrevDate = (day) => {
+  formData.value.date = prevDate(day)
+}
+const chooseNextDate = (day) => {
+  formData.value.date = nextDate(day)
+}
+// выбор категории
+const chooseCategory = (topic) => {
+  formData.value.topic = topic
+}
+// передача фул formData
+const saveTask = () => {
+  props.createNewTask(formData.value)
 }
 </script>
 
@@ -40,7 +167,6 @@ const formData = {
                   name="name"
                   id="formTitle"
                   placeholder="Введите название задачи..."
-                  autofocus
                   v-model="formData.title"
                 >
               </div>
@@ -63,11 +189,12 @@ const formData = {
               <p class="calendar__ttl subttl">Даты</p>
               <div class="calendar__block">
                 <div class="calendar__nav">
-                  <div class="calendar__month">Сентябрь 2023</div>
+                  <div class="calendar__month">{{ monthNames[currentMonth] }} {{ currentYear }}</div>
                   <div class="nav__actions">
                     <div
                       class="nav__action"
                       data-action="prev"
+                      @click="prevMonth"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -81,6 +208,7 @@ const formData = {
                     <div
                       class="nav__action"
                       data-action="next"
+                      @click="nextMonth"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -104,51 +232,26 @@ const formData = {
                     <div class="calendar__day-name -weekend-">вс</div>
                   </div>
                   <div class="calendar__cells">
-                    <div class="calendar__cell _other-month">28</div>
-                    <div class="calendar__cell _other-month">29</div>
-                    <div class="calendar__cell _other-month">30</div>
-                    <div class="calendar__cell _cell-day">31</div>
-                    <div class="calendar__cell _cell-day">1</div>
-                    <div class="calendar__cell _cell-day _weekend">2</div>
-                    <div class="calendar__cell _cell-day _weekend">3</div>
-                    <div class="calendar__cell _cell-day">4</div>
-                    <div class="calendar__cell _cell-day">5</div>
-                    <div class="calendar__cell _cell-day ">6</div>
-                    <div class="calendar__cell _cell-day">7</div>
-                    <div class="calendar__cell _cell-day _current">8</div>
-                    <div class="calendar__cell _cell-day _weekend">9</div>
-                    <div class="calendar__cell _cell-day _weekend">10</div>
-                    <div class="calendar__cell _cell-day">11</div>
-                    <div class="calendar__cell _cell-day">12</div>
-                    <div class="calendar__cell _cell-day">13</div>
-                    <div class="calendar__cell _cell-day">14</div>
-                    <div class="calendar__cell _cell-day">15</div>
-                    <div class="calendar__cell _cell-day _weekend">16</div>
-                    <div class="calendar__cell _cell-day _weekend">17</div>
-                    <div class="calendar__cell _cell-day">18</div>
-                    <div class="calendar__cell _cell-day">19</div>
-                    <div class="calendar__cell _cell-day">20</div>
-                    <div class="calendar__cell _cell-day">21</div>
-                    <div class="calendar__cell _cell-day">22</div>
-                    <div class="calendar__cell _cell-day _weekend">23</div>
-                    <div class="calendar__cell _cell-day _weekend">24</div>
-                    <div class="calendar__cell _cell-day">25</div>
-                    <div class="calendar__cell _cell-day">26</div>
-                    <div class="calendar__cell _cell-day">27</div>
-                    <div class="calendar__cell _cell-day">28</div>
-                    <div class="calendar__cell _cell-day">29</div>
-                    <div class="calendar__cell _cell-day _weekend">30</div>
-                    <div class="calendar__cell _other-month _weekend">1</div>
+                    <div
+                      v-for="day in calendarDays"
+                      class="calendar__cell"
+                      :class="day ? ['_cell-day',
+                      day === 8 && currentMonth === 8 && currentYear === 2023 ? '_current' : '',
+                      formData.date === currentDate(day) ? '_active-day' : ''] : ''"
+                      @click="day ? chooseCurrentDate(day) : ''"
+                    >
+                      {{ day }}
+                    </div>
                   </div>
                 </div>
+                <!--                  :value="formData.date"-->
                 <input
                   type="hidden"
                   id="datepick_value"
-                  value="08.09.2023"
                 >
                 <div class="calendar__period">
                   <p class="calendar__p date-end">Выберите срок исполнения
-                    <span class="date-control"></span>.
+                    <span class="date-control">{{ formData.date }}</span>.
                   </p>
                 </div>
               </div>
@@ -157,13 +260,25 @@ const formData = {
           <div class="pop-new-card__categories categories">
             <p class="categories__p subttl">Категория</p>
             <div class="categories__themes">
-              <div class="categories__theme _orange _active-category">
+              <div
+                class="categories__theme _orange"
+                :class="formData.topic === 'Web Design' ? '_active-category' : ''"
+                @click="chooseCategory('Web Design')"
+              >
                 <p class="_orange">Web Design</p>
               </div>
-              <div class="categories__theme _green">
+              <div
+                class="categories__theme _green"
+                :class="formData.topic === 'Research' ? '_active-category' : ''"
+                @click="chooseCategory('Research')"
+              >
                 <p class="_green">Research</p>
               </div>
-              <div class="categories__theme _purple">
+              <div
+                class="categories__theme _purple"
+                :class="formData.topic === 'Copywriting' ? '_active-category' : ''"
+                @click="chooseCategory('Copywriting')"
+              >
                 <p class="_purple">Copywriting</p>
               </div>
             </div>
@@ -172,7 +287,7 @@ const formData = {
             type="button"
             class="form-new__create _hover01"
             id="btnCreate"
-            @click="createNewTask(formData)"
+            @click="saveTask"
           >Создать задачу
           </button>
         </div>
@@ -182,6 +297,10 @@ const formData = {
 </template>
 
 <style scoped>
+.categories__theme {
+  cursor: pointer;
+}
+
 .pop-new-card {
   /*display: none;*/
   display: block;

@@ -16,45 +16,13 @@ const props = defineProps({
   tasks: {
     type: Array
   },
+  columnsApi: {
+    type: Array
+  },
   error: {
     type: String,
     default: ''
   }
-})
-
-const columnsToApi = computed(() => {
-  const newColumns = [
-    { name: 'noStatus', title: 'Без статуса', isFirst: true },
-    { name: 'todo', title: 'Нужно сделать', isFirst: false },
-    { name: 'inWork', title: 'В работе', isFirst: false },
-    { name: 'testing', title: 'Тестирование', isFirst: false },
-    { name: 'done', title: 'Готово', isFirst: false }
-  ]
-
-  const finalColumns = []
-
-  for (let i = 0; i < newColumns.length; i++) {
-    const column = newColumns[i]
-    const columnTasks = []
-
-    const tasksApi = props.tasks || []
-    for (let c = 0; c < tasksApi.length; c++) {
-      const task = tasksApi[c]
-
-      if (task.status === column.title) {
-        columnTasks.push(task)
-      }
-    }
-
-    finalColumns.push({
-      name: column.name,
-      title: column.title,
-      isFirst: column.isFirst,
-      tasks: columnTasks
-    })
-  }
-
-  return finalColumns
 })
 
 const isTask = computed(() => {
@@ -93,7 +61,7 @@ const isTask = computed(() => {
             v-else
           >
             <TaskColumn
-              v-for="column in columnsToApi"
+              v-for="column in columnsApi"
               :key="column.name"
               :title="column.title"
               :isFirst="column.isFirst"

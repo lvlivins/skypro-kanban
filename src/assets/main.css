@@ -142,7 +142,7 @@ body {
 }
 .calendar__cells {
   width: 182px;
-  height: 126px;
+  min-height: 126px;
   display: flex;
   flex-wrap: wrap;
 }

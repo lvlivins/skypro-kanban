@@ -1,6 +1,6 @@
 <!-- Компонент модалки task, куда подставляем значения из API = mocks/tasks.js-->
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   task: {
@@ -12,10 +12,155 @@ const props = defineProps({
 })
 
 const description = ref('')
+const selectedStatus = ref('')
+const selectedDate = ref('')
+const editMode = ref(false) // в режим просмотра -> true в режим редактирования
+
+const monthNames = [
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь'
+]
+
+const statusList = [
+  'Без статуса',
+  'Нужно сделать',
+  'В работе',
+  'Тестирование',
+  'Готово'
+]
 
 if (props.task) {
   description.value = props.task.description
+  selectedStatus.value = props.task.status
+  selectedDate.value = props.task.date
 }
+
+const isActiveStatus = (status) => {
+  if (selectedStatus.value === status) {
+    return true
+  }
+  return false
+}
+
+const startEdit = () => {
+  editMode.value = true
+  description.value = props.task.description
+  selectedStatus.value = props.task.status
+  selectedDate.value = props.task.date
+}
+
+const cancelEdit = () => {
+  description.value = props.task.description
+  selectedStatus.value = props.task.status
+  selectedDate.value = props.task.date
+  editMode.value = false
+}
+
+const saveEdit = () => {
+  let taskId = props.task.id
+
+  if (props.task._id) {
+    taskId = props.task._id
+  }
+
+  const updatedTask = {
+    title: props.task.title,
+    topic: props.task.topic,
+    description: description.value,
+    status: selectedStatus.value,
+    date: selectedDate.value
+  }
+
+  props.editTask(taskId, updatedTask)
+}
+
+const chooseStatus = (status) => {
+  if (editMode.value) {
+    selectedStatus.value = status
+  }
+}
+
+const date = selectedDate.value.split('.')
+
+const monthFromDate = Number(date[1]) - 1
+const yearFromDate = 2000 + Number(date[2])
+
+const currentMonth = ref(monthFromDate)
+const currentYear = ref(yearFromDate)
+
+const prevMonth = () => {
+  if (!editMode.value) {
+    return
+  }
+
+  if (currentMonth.value > 0) {
+    currentMonth.value = currentMonth.value - 1
+  } else {
+    currentMonth.value = 11
+    currentYear.value = currentYear.value - 1
+  }
+}
+
+const nextMonth = () => {
+  if (!editMode.value) {
+    return
+  }
+
+  if (currentMonth.value < 11) {
+    currentMonth.value = currentMonth.value + 1
+  } else {
+    currentMonth.value = 0
+    currentYear.value = currentYear.value + 1
+  }
+}
+
+const getDateString = (day) => {
+  const date = new Date(currentYear.value, currentMonth.value, day)
+
+  return date.toLocaleDateString('ru-RU', {
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit'
+  })
+}
+
+const chooseDate = (day) => {
+  if (editMode.value) {
+    selectedDate.value = getDateString(day)
+  }
+}
+
+const calendarDays = computed(() => {
+  const firstDay = new Date(currentYear.value, currentMonth.value, 1).getDay()
+  const lastDate = new Date(currentYear.value, currentMonth.value + 1, 0).getDate()
+  const days = []
+
+  let emptyDays = firstDay - 1
+
+  if (firstDay === 0) { // воскресенье
+    emptyDays = 6
+  }
+
+  for (let i = 0; i < emptyDays; i++) {
+    days.push('') // пустые ячейки
+  }
+
+  for (let i = 1; i <= lastDate; i++) {
+    days.push(i)  // числа
+  }
+
+  return days
+})
 </script>
 
 <template>
@@ -28,27 +173,35 @@ if (props.task) {
         <div class="pop-browse__content">
           <div class="pop-browse__top-block">
             <h3 class="pop-browse__ttl">{{ task.title }}</h3>
-            <div :class="['categories__theme', 'theme-top', task.status, '_active-category']">
-              <p :class="task.status">{{ task.topic }}</p>
+            <div :class="['categories__theme', 'theme-top', task.topicClass, '_active-category']">
+              <p :class="task.topicClass">{{ task.topic }}</p>
             </div>
           </div>
           <div class="pop-browse__status status">
             <p class="status__p subttl">Статус</p>
-            <div class="status__themes">
-              <div class="status__theme _hide">
-                <p>Без статуса</p>
+            <div
+              class="status__themes"
+              v-if="!editMode"
+            >
+              <div
+                class="status__theme"
+                :class="isActiveStatus(task.status) ? '_active-status' : ''"
+              >
+                <p>{{ task.status }}</p>
               </div>
-              <div class="status__theme _gray">
-                <p class="_gray">Нужно сделать</p>
-              </div>
-              <div class="status__theme _hide">
-                <p>В работе</p>
-              </div>
-              <div class="status__theme _hide">
-                <p>Тестирование</p>
-              </div>
-              <div class="status__theme _hide">
-                <p>Готово</p>
+            </div>
+            <div
+              class="status__themes"
+              v-else
+            >
+              <div
+                v-for="status in statusList"
+                :key="status"
+                class="status__theme"
+                :class="isActiveStatus(status) ? '_active-status' : ''"
+                @click="chooseStatus(status)"
+              >
+                <p>{{ status }}</p>
               </div>
             </div>
           </div>
@@ -70,6 +223,7 @@ if (props.task) {
                   id="textArea01"
                   placeholder="Введите описание задачи..."
                   v-model="description"
+                  :disabled="!editMode"
                 ></textarea>
               </div>
             </form>
@@ -77,11 +231,12 @@ if (props.task) {
               <p class="calendar__ttl subttl">Даты</p>
               <div class="calendar__block">
                 <div class="calendar__nav">
-                  <div class="calendar__month">Сентябрь 2023</div>
+                  <div class="calendar__month">{{ monthNames[currentMonth] }} {{ currentYear }}</div>
                   <div class="nav__actions">
                     <div
                       class="nav__action"
                       data-action="prev"
+                      @click="prevMonth"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -97,6 +252,7 @@ if (props.task) {
                     <div
                       class="nav__action"
                       data-action="next"
+                      @click="nextMonth"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -121,55 +277,28 @@ if (props.task) {
                     <div class="calendar__day-name -weekend-">сб</div>
                     <div class="calendar__day-name -weekend-">вс</div>
                   </div>
+
                   <div class="calendar__cells">
-                    <div class="calendar__cell _other-month">28</div>
-                    <div class="calendar__cell _other-month">29</div>
-                    <div class="calendar__cell _other-month">30</div>
-                    <div class="calendar__cell _cell-day">31</div>
-                    <div class="calendar__cell _cell-day">1</div>
-                    <div class="calendar__cell _cell-day _weekend">2</div>
-                    <div class="calendar__cell _cell-day _weekend">3</div>
-                    <div class="calendar__cell _cell-day">4</div>
-                    <div class="calendar__cell _cell-day">5</div>
-                    <div class="calendar__cell _cell-day">6</div>
-                    <div class="calendar__cell _cell-day">7</div>
-                    <div class="calendar__cell _cell-day _current">8</div>
-                    <div class="calendar__cell _cell-day _weekend _active-day">9</div>
-                    <div class="calendar__cell _cell-day _weekend">10</div>
-                    <div class="calendar__cell _cell-day">11</div>
-                    <div class="calendar__cell _cell-day">12</div>
-                    <div class="calendar__cell _cell-day">13</div>
-                    <div class="calendar__cell _cell-day">14</div>
-                    <div class="calendar__cell _cell-day">15</div>
-                    <div class="calendar__cell _cell-day _weekend">16</div>
-                    <div class="calendar__cell _cell-day _weekend">17</div>
-                    <div class="calendar__cell _cell-day">18</div>
-                    <div class="calendar__cell _cell-day">19</div>
-                    <div class="calendar__cell _cell-day">20</div>
-                    <div class="calendar__cell _cell-day">21</div>
-                    <div class="calendar__cell _cell-day">22</div>
-                    <div class="calendar__cell _cell-day _weekend">23</div>
-                    <div class="calendar__cell _cell-day _weekend">24</div>
-                    <div class="calendar__cell _cell-day">25</div>
-                    <div class="calendar__cell _cell-day">26</div>
-                    <div class="calendar__cell _cell-day">27</div>
-                    <div class="calendar__cell _cell-day">28</div>
-                    <div class="calendar__cell _cell-day">29</div>
-                    <div class="calendar__cell _cell-day _weekend">30</div>
-                    <div class="calendar__cell _other-month _weekend">1</div>
+                    <div
+                      v-for="day in calendarDays"
+                      :key="day + '-' + currentMonth + '-' + currentYear"
+                      class="calendar__cell"
+                      :class="day ? ['_cell-day', selectedDate === getDateString(day) ? '_active-day' : ''] : ''"
+                      @click="day ? chooseDate(day) : ''"
+                    >
+                      {{ day }}
+                    </div>
                   </div>
                 </div>
-
                 <input
                   type="hidden"
                   id="datepick_value"
-                  :value="task.date"
+                  :value="selectedDate"
                 >
-
                 <div class="calendar__period">
                   <p class="calendar__p date-end">
                     Срок исполнения:
-                    <span class="date-control">{{ task.date }}</span>
+                    <span class="date-control">{{ selectedDate }}</span>
                   </p>
                 </div>
               </div>
@@ -178,24 +307,41 @@ if (props.task) {
 
           <div class="theme-down__categories theme-down">
             <p class="categories__p subttl">Категория</p>
-            <div :class="['categories__theme', task.status, '_active-category']">
-              <p :class="task.status">{{ task.topic }}</p>
+            <div :class="['categories__theme', task.topicClass, '_active-category']">
+              <p :class="task.topicClass">{{ task.topic }}</p>
             </div>
           </div>
 
-          <div class="pop-browse__btn-browse ">
+          <div class="pop-browse__btn-browse">
             <div class="btn-group">
               <button
                 class="btn-browse__edit _btn-bor _hover03"
                 type="button"
-                @click="task.description = description.value; editTask(task._id, task)"
+                @click="startEdit"
+                v-if="!editMode"
               >
                 Редактировать задачу
               </button>
               <button
+                v-if="editMode"
+                class="btn-edit__edit _btn-bg _hover01"
+                type="button"
+                @click="saveEdit"
+              >
+                Сохранить
+              </button>
+              <button
+                v-if="editMode"
+                class="btn-edit__edit _btn-bor _hover03"
+                type="button"
+                @click="cancelEdit"
+              >
+                Отменить
+              </button>
+              <button
                 class="btn-browse__delete _btn-bor _hover03"
                 type="button"
-                @click="deleteTask(task._id || task.id)"
+                @click="deleteTask(task._id)"
               >
                 Удалить задачу
               </button>
@@ -207,42 +353,7 @@ if (props.task) {
             >Закрыть
             </RouterLink>
           </div>
-
-          <div class="pop-browse__btn-edit _hide">
-            <div class="btn-group">
-              <button>
-                <a
-                  class="btn-edit__edit _btn-bg _hover01"
-                  type="button"
-                  @click="task.description = description.value; editTask(task._id, task)"
-                >Сохранить
-                </a>
-              </button>
-              <button
-                class="
-                  btn-edit__edit
-                  _btn-bor
-                  _hover03
-                "
-              >Отменить
-              </button>
-              <button>
-                <a
-                  class="btn-edit__delete _btn-bor _hover03"
-                  id="btnDelete"
-                  type="button"
-                  @click="deleteTask(task._id)"
-                >Удалить задачу
-                </a>
-              </button>
-            </div>
-            <RouterLink
-              class="btn-edit__close _btn-bg _hover01"
-              to="/"
-              type="button"
-            >Закрыть
-            </RouterLink>
-          </div>
+          <p v-if="error">{{ error }}</p>
         </div>
       </div>
     </div>
@@ -406,12 +517,22 @@ if (props.task) {
   padding: 11px 14px 10px;
   margin-right: 7px;
   margin-bottom: 7px;
+  cursor: pointer;
 }
 
 .status__theme p {
   font-size: 14px;
   line-height: 1;
   letter-spacing: -0.14px;
+  color: #94A6BE;
+}
+
+._active-status {
+  background: #94A6BE;
+}
+
+._active-status p {
+  color: #FFFFFF;
 }
 
 .btn-browse__close {
@@ -444,9 +565,5 @@ if (props.task) {
 
 ._btn-bg a {
   color: #FFFFFF;
-}
-
-._hide {
-  display: none;
 }
 </style>

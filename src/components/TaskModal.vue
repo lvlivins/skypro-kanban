@@ -82,6 +82,7 @@ const saveEdit = () => {
   }
 
   props.editTask(taskId, updatedTask)
+  editMode.value = false // клик на режим просмотра
 }
 
 const chooseStatus = (status) => {

@@ -117,16 +117,16 @@ export function useTasks() {
       }
 
       if (task.date) {
-        const parts = task.date.split('.')
+      const dateNumbers = task.date.split('.')
 
-        if (parts.length === 3) {
-          const day = parts[0]
-          const month = parts[1]
-          const year = parts[2]
+      if (dateNumbers.length === 3) {
+        const day = dateNumbers[0]
+        const month = dateNumbers[1]
+        const year = '20' + dateNumbers[2]
 
-          newTask.date = new Date(`${year}-${month}-${day}`).toISOString()
-        }
+        newTask.date = new Date(`${year}-${month}-${day}`).toISOString()
       }
+    }
 
       const data = await postTask({ token: tokenUser, task: newTask })
 
@@ -144,7 +144,27 @@ export function useTasks() {
   const updateTask = async (id, task) => {
     try {
       error.value = ''
-      const data = await editTask({ token: tokenUser, id, task })
+
+      const updatedTask = {
+        title: task.title,
+        description: task.description,
+        topic: task.topic,
+        status: task.status
+      }
+
+      if (task.date) {
+        const dateNumbers = task.date.split('.')
+
+        if (dateNumbers.length === 3) {
+          const day = dateNumbers[0]
+          const month = dateNumbers[1]
+          const year = '20' + dateNumbers[2]
+
+          updatedTask.date = new Date(`${year}-${month}-${day}`).toISOString()
+        }
+      }
+
+        const data = await editTask({ token: tokenUser, id, task: updatedTask })
       if (data) {
         tasks.value = changeTasksApi(data)
       }

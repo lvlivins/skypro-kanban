@@ -25,7 +25,7 @@ const taskRoute = computed(() => {
 
 const editTask = async (id, task) => {
   await updateTask(id, task)
-  await router.push('/')
+  // await router.push('/') - чтоб в модалке не возвращалось на главную стр сразу
 }
 
 const deleteTask = async (id) => {

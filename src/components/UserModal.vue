@@ -1,11 +1,29 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, inject, computed } from 'vue'
 
 const userPop = ref(false)
 
 function userOpenClosePop() {
   userPop.value = !userPop.value
 }
+
+const auth = inject('auth')
+
+const userName = computed(() => {
+  if (!auth || !auth.userInfo || !auth.userInfo.value) {
+    return ''
+  }
+
+  return auth.userInfo.value.name
+})
+
+const userEmail = computed(() => {
+  if (!auth || !auth.userInfo || !auth.userInfo.value) {
+    return ''
+  }
+
+  return auth.userInfo.value.login
+})
 </script>
 
 <template>
@@ -13,15 +31,15 @@ function userOpenClosePop() {
     href="#user-set-target"
     class="header__user _hover02"
     v-on:click="userOpenClosePop"
-  >Ivan Ivanov
+  >{{ userName }}
   </a>
   <div
     class="header__pop-user-set pop-user-set"
     id="user-set-target"
     v-if="userPop"
   >
-    <p class="pop-user-set__name">Ivan Ivanov</p>
-    <p class="pop-user-set__mail">ivan.ivanov@gmail.com</p>
+    <p class="pop-user-set__name">{{ userName }}</p>
+    <p class="pop-user-set__mail">{{ userEmail }}</p>
     <div class="pop-user-set__theme">
       <p>Темная тема</p>
       <input
@@ -30,12 +48,12 @@ function userOpenClosePop() {
         name="checkbox"
       >
     </div>
-    <button
-      type="button"
-      class="_hover03"
-    >
-      <RouterLink to="/exit">Выйти</RouterLink>
-    </button>
+      <RouterLink
+        class="pop-user-set-btn"
+        to="/exit"
+      >
+        Выйти
+      </RouterLink>
   </div>
 </template>
 
@@ -90,6 +108,7 @@ function userOpenClosePop() {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  cursor: pointer;
 }
 
 .pop-user-set__theme input[type=checkbox]::before {
@@ -108,23 +127,22 @@ function userOpenClosePop() {
   left: 12px;
 }
 
-.pop-user-set button {
+.pop-user-set-btn {
   width: 72px;
   height: 30px;
+  font-size: 14px;
   background-color: white;
   border-radius: 4px;
   border: 1px solid #565EEF;
-}
-
-.pop-user-set button a {
   color: #565EEF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
-.pop-user-set:hover button {
+.pop-user-set-btn:hover {
   background-color: #565EEF;
-}
-
-.pop-user-set:hover button a {
   color: white;
 }
 

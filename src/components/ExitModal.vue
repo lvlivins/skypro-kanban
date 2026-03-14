@@ -17,12 +17,12 @@
             >
               <router-link to="/login">Да, выйти</router-link>
             </button>
-            <button
-              class="pop-exit__exit-no _hover03"
-              id="exitNo"
-            >
-              <router-link to="/">Нет, остаться</router-link>
-            </button>
+              <router-link
+                class="pop-exit__exit-no"
+                id="exitNo"
+                to="/"
+              >Нет, остаться
+              </router-link>
           </div>
         </form>
       </div>
@@ -102,6 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
 }
 
 .pop-exit__exit-no {
@@ -109,7 +110,7 @@
   height: 30px;
   background-color: transparent;
   border-radius: 4px;
-  border: 0.7px solid var(--palette-navy-60, #565EEF);
+  border: 0.7px solid #565EEF;
   outline: none;
   display: flex;
   align-items: center;
@@ -118,7 +119,12 @@
   line-height: 21px;
   font-weight: 500;
   letter-spacing: -0.14px;
-  color: #FFFFFF;
+  color: #565EEF;
+}
+
+.pop-exit__exit-no:hover {
+  background-color: #565EEF;
+  color: white;
 }
 
 .pop-exit__exit-no a {
@@ -137,3 +143,8 @@
   justify-content: space-between;
 }
 </style>
+<script
+  setup
+  lang="ts"
+>
+</script>

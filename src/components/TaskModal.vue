@@ -317,7 +317,7 @@ const calendarDays = computed(() => {
           <div class="pop-browse__btn-browse">
             <div class="btn-group">
               <button
-                class="btn-browse__edit _btn-bor _hover03"
+                class="btn-browse__edit _btn-bor"
                 type="button"
                 @click="startEdit"
                 v-if="!editMode"
@@ -334,14 +334,14 @@ const calendarDays = computed(() => {
               </button>
               <button
                 v-if="editMode"
-                class="btn-edit__edit _btn-bor _hover03"
+                class="btn-edit__edit _btn-bor"
                 type="button"
                 @click="cancelEdit"
               >
                 Отменить
               </button>
               <button
-                class="btn-browse__delete _btn-bor _hover03"
+                class="btn-browse__delete _btn-bor"
                 type="button"
                 @click="deleteTask(task._id)"
               >
@@ -350,7 +350,7 @@ const calendarDays = computed(() => {
             </div>
             <RouterLink
               type="button"
-              class="btn-browse__close _btn-bg _hover01"
+              class="btn-browse__close _btn-bg"
               to="/"
             >Закрыть
             </RouterLink>
@@ -455,10 +455,61 @@ const calendarDays = computed(() => {
   height: 30px;
   margin-bottom: 10px;
   padding: 0 14px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .pop-browse__btn-browse .btn-group button, .pop-browse__btn-edit .btn-group button {
   margin-right: 8px;
+}
+
+.btn-browse__delete {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn-browse__close {
+  height: 30px;
+  text-align: center;
+  display: flex;
+  padding: 0 14px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+._btn-bg {
+  border-radius: 4px;
+  background: #565EEF;
+  border: none;
+  outline: none;
+  color: #FFFFFF;
+}
+
+._btn-bg:hover {
+  background-color: #33399b;
+}
+
+._btn-bor {
+  border-radius: 4px;
+  border: 0.7px solid #565EEF;
+  outline: none;
+  background: transparent;
+  color: #565EEF;
+  font-weight: 500;
+}
+
+._btn-bor a {
+  color: #565EEF;
+}
+
+._btn-bor:hover {
+  color: white;
+  background: #565EEF;
+}
+
+._btn-bg a {
+  color: #FFFFFF;
 }
 
 .form-browse__block {
@@ -479,6 +530,7 @@ const calendarDays = computed(() => {
   letter-spacing: -0.14px;
   margin-top: 14px;
   height: 200px;
+  resize: none;
 }
 
 ._grey {
@@ -541,35 +593,5 @@ const calendarDays = computed(() => {
   color: #FFFFFF;
 }
 
-.btn-browse__close {
-  height: 30px;
-  text-align: center;
-  display: flex;
-  padding: 0 14px;
-  align-items: center;
-}
 
-._btn-bor {
-  border-radius: 4px;
-  border: 0.7px solid var(--palette-navy-60, #565EEF);
-  outline: none;
-  background: transparent;
-  color: #565EEF;
-}
-
-._btn-bor a {
-  color: #565EEF;
-}
-
-._btn-bg {
-  border-radius: 4px;
-  background: #565EEF;
-  border: none;
-  outline: none;
-  color: #FFFFFF;
-}
-
-._btn-bg a {
-  color: #FFFFFF;
-}
 </style>

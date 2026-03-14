@@ -1,8 +1,6 @@
 import { ref, computed } from 'vue'
 import { fetchTasks, postTask, editTask, deleteTask } from '@/services/api.js'
 
-const tokenUser = 'bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck'
-
 const tasks = ref([])
 const error = ref('')
 const loading = ref(false)
@@ -29,7 +27,7 @@ const taskClass = (topic) => {
     return '_green'
   }
 }
-// изм задачи под формат АПИ
+// изм задачи под АПИ
 const changeTasksApi = (data) => {
   const newTasks = []
 
@@ -87,14 +85,16 @@ const columnsApi = computed(() => {
   return finalColumns
 })
 
-export function useTasks() {
+export function useTasks(auth) {
   //получение списка задача
   const getTasks = async () => {
     try {
       loading.value = true
       error.value = ''
 
-      const data = await fetchTasks({ token: tokenUser })
+      const token = auth.userInfo.value.token
+
+      const data = await fetchTasks({ token: token })
       if (data) {
         tasks.value = changeTasksApi(data)
       }
@@ -109,6 +109,8 @@ export function useTasks() {
     try {
       error.value = ''
 
+      const token = auth.userInfo.value.token
+
       const newTask = {
         title: task.title,
         description: task.description,
@@ -117,18 +119,18 @@ export function useTasks() {
       }
 
       if (task.date) {
-      const dateNumbers = task.date.split('.')
+        const dateNumbers = task.date.split('.')
 
-      if (dateNumbers.length === 3) {
-        const day = dateNumbers[0]
-        const month = dateNumbers[1]
-        const year = '20' + dateNumbers[2]
+        if (dateNumbers.length === 3) {
+          const day = dateNumbers[0]
+          const month = dateNumbers[1]
+          const year = '20' + dateNumbers[2]
 
-        newTask.date = new Date(`${year}-${month}-${day}`).toISOString()
+          newTask.date = new Date(`${year}-${month}-${day}`).toISOString()
+        }
       }
-    }
 
-      const data = await postTask({ token: tokenUser, task: newTask })
+      const data = await postTask({ token: token, task: newTask })
 
       if (data) {
         tasks.value = changeTasksApi(data)
@@ -144,6 +146,7 @@ export function useTasks() {
   const updateTask = async (id, task) => {
     try {
       error.value = ''
+      const token = auth.userInfo.value.token
 
       const updatedTask = {
         title: task.title,
@@ -164,7 +167,7 @@ export function useTasks() {
         }
       }
 
-        const data = await editTask({ token: tokenUser, id, task: updatedTask })
+      const data = await editTask({ token: token, id, task: updatedTask })
       if (data) {
         tasks.value = changeTasksApi(data)
       }
@@ -174,9 +177,10 @@ export function useTasks() {
   }
   // удаление задачи
   const removeTask = async (id) => {
+    const token = auth.userInfo.value.token
     try {
       error.value = ''
-      const data = await deleteTask({ token: tokenUser, id: id })
+      const data = await deleteTask({ token: token, id: id })
       if (data) {
         tasks.value = changeTasksApi(data)
       }

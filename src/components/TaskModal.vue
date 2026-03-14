@@ -220,6 +220,7 @@ const calendarDays = computed(() => {
                 </label>
                 <textarea
                   class="form-browse__area"
+                  :class="{ _grey: !editMode }"
                   name="text"
                   id="textArea01"
                   placeholder="Введите описание задачи..."
@@ -470,7 +471,7 @@ const calendarDays = computed(() => {
   width: 100%;
   outline: none;
   padding: 14px;
-  background: #EAEEF6;
+  background: white;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
   border-radius: 8px;
   font-size: 14px;
@@ -478,6 +479,10 @@ const calendarDays = computed(() => {
   letter-spacing: -0.14px;
   margin-top: 14px;
   height: 200px;
+}
+
+._grey {
+  background: #EAEEF6;
 }
 
 .form-browse__area::-moz-placeholder {

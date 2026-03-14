@@ -44,10 +44,13 @@ body {
   background-color: #33399b;
 }
 
-._hover03:hover { /*В ExitModal, TaskModal, UserModal */
-  background-color: #33399b;
-  color: #FFFFFF;
-}
+/*._hover03:hover { !*В ExitModal, TaskModal, UserModal *!*/
+/*  background-color: #33399b;*/
+/*  color: #FFFFFF;*/
+/*}*/
+
+
+
 ._hover03:hover a {
   color: #FFFFFF;
 }

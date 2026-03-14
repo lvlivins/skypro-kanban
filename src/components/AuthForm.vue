@@ -1,13 +1,15 @@
+<!--общая форма логина и регистрации для LoginView и RegisterView -->
 <script setup>
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { signIn, signUp } from '@/services/auth.js'
 import router from '@/router'
 
+const { setUserInfo } = inject('auth')
+
 const props = defineProps({
-  isSignUp: { type: Boolean, default: false },
-  onClick: { type: Function, default: null }
+  isSignUp: { type: Boolean, default: false }
 })
 
 const formData = ref({
@@ -70,7 +72,7 @@ async function handleSubmit(event) {
       ? await signUp(formData.value)
       : await signIn({ login: formData.value.login, password: formData.value.password })
     if (data) {
-      localStorage.setItem('userInfo', JSON.stringify(data))
+      setUserInfo(data)
       router.push('/')
     }
   } catch (err) {

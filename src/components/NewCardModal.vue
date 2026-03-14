@@ -244,7 +244,6 @@ const saveTask = () => {
                     </div>
                   </div>
                 </div>
-                <!--                  :value="formData.date"-->
                 <input
                   type="hidden"
                   id="datepick_value"

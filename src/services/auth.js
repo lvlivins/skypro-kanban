@@ -15,7 +15,6 @@ export async function signIn(userData) {
   }
 }
 
-/*signUp({ name, login, password }) - деструктурированный подход*/
 export async function signUp(userData) {
   try {
     const data = await axios.post(API_URL, userData, {

@@ -1,11 +1,10 @@
 <!--ПРОСМОТР И РЕДАКТИРОВАНИЕ КАРТОЧКИ - МОДАЛКА-->
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import TaskModal from '@/components/TaskModal.vue'
-import { useTasks } from '@/services/task-crud.js'
 
-const { tasks, error, updateTask, removeTask } = useTasks()
+const { tasks, error, updateTask, removeTask } = inject('tasksData')
 
 const route = useRoute()
 const router = useRouter()

@@ -111,14 +111,21 @@ function userOpenClosePop() {
 .pop-user-set button {
   width: 72px;
   height: 30px;
-  background: transparent;
-  color: #565EEF;
+  background-color: white;
   border-radius: 4px;
   border: 1px solid #565EEF;
 }
 
 .pop-user-set button a {
   color: #565EEF;
+}
+
+.pop-user-set:hover button {
+  background-color: #565EEF;
+}
+
+.pop-user-set:hover button a {
+  color: white;
 }
 
 .header__user {

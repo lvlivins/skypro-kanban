@@ -1,157 +1,94 @@
+<!-- Loading = 2/2 Вся доска c TaskColumn (колонки и данные Task)
+TaskDesk показывает Loader на месте себя.
+Принимает loading от HomeView как пропс.
+Указываем v-else (если false), v-if="loading" (если он видимый по setTimeOut)-->
 <script setup>
 import TaskColumn from '@/components/TaskColumn.vue'
+import { computed } from 'vue'
+import Loader from '@/components/Loader.vue'
+import { loaderText } from '@/mocks/tasks.js'
 
-const columns = [
-  {
-    name: 'Column №1',
-    title: 'Без статуса',
-    isFirst: true,
-    tasks: [
-      {
-        id: 1,
-        themeText: 'Web Design',
-        themeClass: '_orange',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      },
-      {
-        id: 2,
-        themeText: 'Research',
-        themeClass: '_green',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      },
-      {
-        id: 3,
-        themeText: 'Web Design',
-        themeClass: '_orange',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      },
-      {
-        id: 4,
-        themeText: 'Copywriting',
-        themeClass: '_purple',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      },
-      {
-        id: 5,
-        themeText: 'Web Design',
-        themeClass: '_orange',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      }
-    ]
+const props = defineProps({
+  loading: {
+    type: Boolean,
+    default: false
   },
-
-  {
-    name: 'Column №2',
-    title: 'Нужно сделать',
-    isFirst: false,
-    tasks: [
-      {
-        id: 6,
-        themeText: 'Research',
-        themeClass: '_green',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      }
-    ]
+  tasks: {
+    type: Array
   },
-
-  {
-    name: 'Column №3',
-    title: 'В работе',
-    isFirst: false,
-    tasks: [
-      {
-        id: 7,
-        themeText: 'Research',
-        themeClass: '_green',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      },
-      {
-        id: 8,
-        themeText: 'Copywriting',
-        themeClass: '_purple',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      },
-      {
-        id: 9,
-        themeText: 'Web Design',
-        themeClass: '_orange',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      }
-    ]
+  columnsApi: {
+    type: Array
   },
-
-  {
-    name: 'Column №4',
-    title: 'Тестирование',
-    isFirst: false,
-    tasks: [
-      {
-        id: 10,
-        themeText: 'Research',
-        themeClass: '_green',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      }
-    ]
-  },
-
-  {
-    name: 'Column №5',
-    title: 'Готово',
-    isFirst: false,
-    tasks: [
-      {
-        id: 11,
-        themeText: 'Research',
-        themeClass: '_green',
-        title: 'Название задачи',
-        dateText: '30.10.23'
-      }
-    ]
+  error: {
+    type: String,
+    default: ''
   }
-]
+})
+
+const isTask = computed(() => {
+  if (!props.tasks) {
+    return false
+  }
+
+  if (props.tasks.length === 0) {
+    return false
+  }
+  return true
+})
 </script>
 
 <template>
   <main class="main">
     <div class="container">
       <div class="main__block">
-        <div class="main__content">
-          <TaskColumn
-            v-for="col in columns"
-            :key="col.name"
-            :title="col.title"
-            :isFirst="col.isFirst"
-            :tasks="col.tasks"
+        <transition
+          name="fade"
+          mode="out-in"
+        >
+          <Loader
+            v-if="loading"
+            :loaderText="loaderText"
+            varLoader="yes"
           />
-        </div>
+          <Loader
+            v-else-if="!isTask"
+            :loaderText="loaderText"
+            varLoader="no"
+            key="empty"
+          />
+          <div
+            class="main__content"
+            v-else
+          >
+            <TaskColumn
+              v-for="column in columnsApi"
+              :key="column.name"
+              :title="column.title"
+              :isFirst="column.isFirst"
+              :tasks="column.tasks"
+            />
+          </div>
+        </transition>
       </div>
     </div>
   </main>
 </template>
 
+<style scoped>
+.main {
+  width: 100%;
+  height:100%;
+  background-color: #EAEEF6;
+}
 
-<!--<template>
-import TaskColumn from '@/components/TaskColumn.vue'
+.main__block {
+  width: 100%;
+  margin: 0 auto;
+  padding: 25px 0 49px;
+}
 
-  <main class="main">
-    <div class="container">
-
-      <div class="main__block">
-        <div class="main__content">
-          <TaskColumn />
-        </div>
-      </div>
-    </div>
-  </main>
-
-</template>-->
+.main__content {
+  width: 100%;
+  display: flex;
+}
+</style>

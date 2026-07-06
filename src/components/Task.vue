@@ -1,3 +1,5 @@
+<!-- Компонент одной карточки task, куда подставляем значения из API = mocks/tasks.js
+Значения из mocks -> через пропс в TaskColumn, где определяются id -> через пропс task вывожу эти значения уже по отдельности тут-->
 <script setup>
 defineProps({
   task: {
@@ -8,36 +10,27 @@ defineProps({
 </script>
 
 <template>
-  <div class="cards__item">
+  <div
+    class="cards__item"
+  >
     <div class="cards__card card">
       <div class="card__group">
-        <div :class="['card__theme', task.themeClass]">
-          <p :class="task.themeClass">{{ task.themeText }}</p>
+        <div :class="['card__theme', task.topicClass]">
+          <p :class="task.topicClass">{{ task.topic }}</p>
         </div>
-
-        <a
-          :href="task.browseHref || '#popBrowse'"
-          target="_self"
-        >
+        <RouterLink :to="`/task/${task._id}`">
           <div class="card__btn">
-            <div>
-            </div>
-            <div>
-            </div>
-            <div>
-            </div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
-        </a>
+        </RouterLink>
       </div>
 
       <div class="card__content">
-        <a
-          :href="task.titleHref || ''"
-          target="_blank"
-        >
+        <RouterLink :to="`/task/${task._id}`">
           <h3 class="card__title">{{ task.title }}</h3>
-        </a>
-
+        </RouterLink>
         <div class="card__date">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -72,9 +65,114 @@ defineProps({
             </defs>
           </svg>
 
-          <p>{{ task.dateText }}</p>
+          <p>{{ task.date }}</p>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.cards__item {
+  padding: 5px;
+  animation-name: card-animation;
+  animation-duration: 500ms;
+  animation-timing-function: linear;
+}
+
+.cards__card {
+  width: 220px;
+  min-height: 130px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: stretch;
+  padding: 12px 12px 14px;
+  margin-bottom: 10px;
+}
+
+.card__group {
+  width: 100%;
+  height: 20px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card__theme {
+  width: auto;
+  height: 20px;
+  padding: 5px 14px;
+  border-radius: 18px;
+}
+
+.card__theme p {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 10px;
+}
+
+.card__btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 2px;
+}
+
+.card__btn div {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #94A6BE;
+}
+
+.card__title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.card__content {
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.card__date {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.card__date svg {
+  width: 13px;
+}
+
+.card__date p {
+  margin-left: 6px;
+  font-size: 10px;
+  line-height: 13px;
+  color: #94A6BE;
+  letter-spacing: 0.2px;
+}
+
+@keyframes card-animation {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: auto;
+    opacity: 1;
+  }
+}
+</style>

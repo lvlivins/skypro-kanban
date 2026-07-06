@@ -1,23 +1,10 @@
-## Project Setup
+## Описание 
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Приложение для управления задачами в формате канбан-доски, где пользователь может:
+<br>```- зарегистрироваться,```
+<br>```- войти в аккаунт,```
+<br>```- создавать,```
+<br>```- редактировать,```
+<br>```- удалять и просматривать задачи,```
+<br>```- менять их статус,```
+<br>```- получать сообщения об ошибках при работе с сервером.```

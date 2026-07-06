@@ -1,3 +1,16 @@
+<script setup>
+import { inject } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const auth = inject('auth')
+
+const logout = () => {
+  auth.removeUserInfo()
+  router.push('/login')
+}
+</script>
+
 <template>
   <div class="pop-exit">
     <div class="pop-exit__container">
@@ -14,8 +27,9 @@
             <button
               class="pop-exit__exit-yes _hover01"
               id="exitYes"
+              @click="logout"
             >
-              <router-link to="/login">Да, выйти</router-link>
+              Да, выйти
             </button>
               <router-link
                 class="pop-exit__exit-no"

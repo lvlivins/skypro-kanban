@@ -257,14 +257,6 @@ button {
     background-color: #FFFFFF;
   }
 
-  .modal__block {
-    max-width: 368px;
-    width: 100%;
-    padding: 0 16px;
-    border-radius: none;
-    border: none;
-    box-shadow: none;
-  }
 }
 </style>
 

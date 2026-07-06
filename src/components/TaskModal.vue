@@ -458,7 +458,7 @@ const calendarDays = computed(() => {
   margin-bottom: 20px;
 }
 
-.pop-browse__btn-browse, .pop-browse__btn-edit {
+.pop-browse__btn-browse {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;

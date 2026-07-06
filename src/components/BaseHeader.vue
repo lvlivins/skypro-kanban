@@ -51,7 +51,7 @@ import UserModal from '@/components/UserModal.vue'
 .header {
   width: 100%;
   margin: 0 auto;
-  background-color: #FFFFFF;
+  background-color: #EAEEF6;
 }
 
 .header__block {

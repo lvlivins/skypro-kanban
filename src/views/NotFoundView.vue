@@ -1,5 +1,78 @@
 <!--СТРАНИЦА С ОШИБКОЙ 404-->
+
 <script setup>
+</script>
+<template>
+  <div class="not-found">
+    <div class="not-found__container">
+      <div class="not-found__card">
+        <h1 class="not-found__title">404</h1>
+
+        <p class="not-found__text">
+          Страница не найдена
+        </p>
+
+        <RouterLink
+          to="/"
+          class="not-found__button _btn-bg _hover01"
+        >
+          Вернуться на главную
+        </RouterLink>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.not-found {
+min-height: 100vh;
+background: #EAEEF6;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 40px 20px;
+}
+
+.not-found__container {
+width: 100%;
+max-width: 500px;
+}
+
+.not-found__card {
+background: #FFFFFF;
+border-radius: 10px;
+padding: 50px 40px;
+text-align: center;
+}
+
+.not-found__title {
+margin: 0 0 20px;
+font-size: 80px;
+font-weight: 700;
+color: #565EEF;
+}
+
+.not-found__text {
+margin: 0 0 35px;
+font-size: 20px;
+line-height: 28px;
+color: #565656;
+}
+
+.not-found__button {
+display: inline-block;
+padding: 12px 26px;
+  background-color: #565EEF;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: 500;
+  letter-spacing: -0.14px;
+  color: #FFFFFF;
+}
+</style>
+
+<!--<script setup> КРЕАТИВНЫЙ ВАР
 import { ref } from 'vue'
 
 const isMuted = ref(true) /*false - сразу запуститься звук */
@@ -14,7 +87,7 @@ function toggleSound() {
     <div class="circleWrap">
       <div
         class="circle"
-        @click="toggleSound" <!--клик по видео - работает функция toggleSound() и isMuted.value = !isMuted.value-->
+        @click="toggleSound" &lt;!&ndash;клик по видео - работает функция toggleSound() и isMuted.value = !isMuted.value&ndash;&gt;
       >
       <video
         class="video"
@@ -28,7 +101,7 @@ function toggleSound() {
           type="video/mp4"
         />
       </video>
-      <!--пока звук выкл - показ кнопки-->
+      &lt;!&ndash;пока звук выкл - показ кнопки&ndash;&gt;
       <div
         class="playOverlay"
         v-if="isMuted"
@@ -193,4 +266,4 @@ function toggleSound() {
     transform: rotate(360deg);
   }
 }
-</style>
+</style>-->

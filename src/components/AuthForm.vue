@@ -127,7 +127,7 @@ async function handleSubmit(event) {
             />
             <p
               v-show="error"
-              class="button-error"
+              class="error"
             >{{ error }}
             </p>
             <BaseButton
@@ -157,7 +157,7 @@ button {
   outline: auto;
 }
 
-.button-error {
+.error {
   color: brown;
   font-size: 14px;
   font-weight: 400;

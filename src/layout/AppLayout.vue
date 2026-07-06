@@ -73,7 +73,7 @@ onMounted(() => {
   max-width: 100%;
   width: 100vw;
   min-height: 100vh;
-  overflow: hidden;
+  overflow: auto;
   background-color: #F1F1F1;
 }
 </style>

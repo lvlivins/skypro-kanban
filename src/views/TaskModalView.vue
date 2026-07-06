@@ -22,14 +22,14 @@ const taskRoute = computed(() => {
   }
 })
 
-const editTask = async (id, task) => {
-  await updateTask(id, task)
-  // await router.push('/') - чтоб в модалке не возвращалось на главную стр сразу
+const editTask = (id, task) => {
+  return updateTask(id, task)
 }
 
 const deleteTask = async (id) => {
   await removeTask(id)
   await router.push('/')
+  // await router.push('/') - чтоб в модалке не возвращалось на главную стр сразу
 }
 </script>
 

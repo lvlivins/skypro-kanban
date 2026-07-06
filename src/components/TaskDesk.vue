@@ -77,7 +77,7 @@ const isTask = computed(() => {
 <style scoped>
 .main {
   width: 100%;
-  height: 100vh;
+  height:100%;
   background-color: #EAEEF6;
 }
 

@@ -8,8 +8,11 @@ const router = useRouter()
 const { createTask } = inject('tasksData')
 
 const createNewTask = async (task) => {
-  await createTask(task)
-  await router.push('/')
+  const success = await createTask(task)
+
+  if (success) {
+    await router.push('/')
+  }
 }
 </script>
 

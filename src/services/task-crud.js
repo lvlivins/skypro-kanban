@@ -170,9 +170,12 @@ export function useTasks(auth) {
       const data = await editTask({ token: token, id, task: updatedTask })
       if (data) {
         tasks.value = changeTasksApi(data)
+        return true
       }
+      return false
     } catch (err) {
       error.value = err.message
+      return false
     }
   }
   // удаление задачи

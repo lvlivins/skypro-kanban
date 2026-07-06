@@ -21,6 +21,12 @@ button,
   outline: none;
 }
 
+.error {
+  color: brown;
+  font-size: 14px;
+  font-weight: 400;
+}
+
 ul li {
   list-style: none;
 }
@@ -38,6 +44,7 @@ body {
   width: 100%;
   margin: 0 auto;
   padding: 0 30px;
+  background-color: #EAEEF6;
 }
 
 ._hover01:hover { /*В BaseHeader, ExitModal, NewCardModal, TaskModal */

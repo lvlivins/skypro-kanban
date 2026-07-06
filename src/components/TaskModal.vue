@@ -66,7 +66,16 @@ const cancelEdit = () => {
   editMode.value = false
 }
 
+const formError = ref('')
+
 const saveEdit = () => {
+  formError.value = ''
+
+  if (!description.value.trim()) {
+    formError.value = 'Введите описание задачи'
+    return
+  }
+
   let taskId = props.task.id
 
   if (props.task._id) {
@@ -81,8 +90,11 @@ const saveEdit = () => {
     date: selectedDate.value
   }
 
-  props.editTask(taskId, updatedTask)
-  editMode.value = false // клик на режим просмотра
+  const success = props.editTask(taskId, updatedTask)
+
+  if (success) {
+    editMode.value = false
+  }
 }
 
 const chooseStatus = (status) => {
@@ -355,7 +367,9 @@ const calendarDays = computed(() => {
             >Закрыть
             </RouterLink>
           </div>
-          <p v-if="error">{{ error }}</p>
+          <p v-if="formError" class="error">
+            {{ formError }}
+          </p>
         </div>
       </div>
     </div>

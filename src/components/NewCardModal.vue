@@ -130,8 +130,22 @@ const chooseNextDate = (day) => {
 const chooseCategory = (topic) => {
   formData.value.topic = topic
 }
-// передача фул formData
+// передача formData
+const formError = ref('')
+
 const saveTask = () => {
+  formError.value = ''
+
+  if (!formData.value.title.trim()) {
+    formError.value = 'Введите название задачи'
+    return
+  }
+
+  if (!formData.value.description.trim()) {
+    formError.value = 'Введите описание задачи'
+    return
+  }
+
   props.createNewTask(formData.value)
 }
 </script>
@@ -183,6 +197,9 @@ const saveTask = () => {
                   placeholder="Введите описание задачи..."
                   v-model="formData.description"
                 ></textarea>
+                <p v-if="formError" class="error">
+                  {{ formError }}
+                </p>
               </div>
             </form>
             <div class="pop-new-card__calendar calendar">

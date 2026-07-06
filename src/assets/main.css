@@ -398,7 +398,7 @@ body {
     width: 100%;
   }
   .pop-browse__btn-browse .btn-group button, .pop-browse__btn-edit .btn-group button {
-    margin-right: 0px;
+    margin-right: 0;
   }
   .form-browse__area {
     max-width: 100%;

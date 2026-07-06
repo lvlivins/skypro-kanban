@@ -197,8 +197,8 @@ button {
   width: 100%;
   padding: 50px 60px;
   border-radius: 10px;
-  border: 0.7px solid #D4DBE5;
-  box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+  border: 0,7px solid #D4DBE5;
+  box-shadow: 0 4px 67px -12px rgba(0, 0, 0, 0.13);
 }
 
 .modal__ttl h2 {
